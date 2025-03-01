@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>社員マスタ編集</title>
+</head>
+<body>
+<h1>社員マスタ編集</h1>
+
+<div th:if="${message}" th:text="${message}" style="color:blue"></div>
+
+<form th:object="${employeeMasterEditForm}" method="post">
+    <p>社員番号<br/>
+        <input type="number" th:field="*{employeeNumber}" />
+    </p>
+
+    <!-- 「読み込み」ボタン -->
+    <button type="submit" th:formaction="@{/employees/master/edit/load}">読み込み</button>
+    <br/><br/>
+
+    <p>社員部署<br/>
+        <input type="text" th:field="*{employeeDepartment}" />
+    </p>
+    <p>社員PJ<br/>
+        <input type="text" th:field="*{employeeProject}" />
+    </p>
+    <p>社員名<br/>
+        <input type="text" th:field="*{employeeName}" />
+    </p>
+
+    <!-- 「追加・更新」ボタン -->
+    <button type="submit" th:formaction="@{/employees/master/edit/save}">追加・更新</button>
+</form>
+
+<br/>
+<form th:action="@{/tasks}" method="get">
+    <button type="submit">タスク一覧に戻る</button>
+</form>
+</body>
+</html>

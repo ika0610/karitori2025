@@ -6,6 +6,10 @@
 </head>
 <body>
     <h1>タスク社員一覧</h1>
+
+    <!-- 更新完了メッセージ等 -->
+    <div th:if="${updateMessage}" th:text="${updateMessage}" style="color:green; font-weight:bold;"></div>
+
     <p>タスクNo: <span th:text="${taskNo}"></span></p>
 
     <table border="1">
@@ -19,9 +23,10 @@
             <th>操作</th>
         </tr>
         <tr th:each="emp : ${employees}">
-            <!-- 各行ごとにフォームを作成し、明細を更新 -->
             <form th:action="@{'/employees/' + ${emp.id} + '/update'}" method="post">
-                <input type="hidden" name="taskNo" th:value="${emp.taskNo}"/>
+                <!-- 社員が持つ taskNo を hidden で送信し、更新対象をチェックする -->
+                <input type="hidden" name="taskNo" th:value="${emp.taskNo}" />
+
                 <td><input type="text" name="employeeDepartment" th:value="${emp.employeeDepartment}" /></td>
                 <td><input type="text" name="employeeProject" th:value="${emp.employeeProject}" /></td>
                 <td><input type="number" name="employeeNumber" th:value="${emp.employeeNumber}" /></td>
@@ -41,8 +46,8 @@
     </table>
 
     <br/>
-    <!-- タスク一覧に戻るボタン -->
-    <form action="/tasks" method="get">
+    <!-- タスク一覧へ戻るボタン -->
+    <form th:action="@{/tasks}" method="get">
         <button type="submit">タスク一覧に戻る</button>
     </form>
 </body>

@@ -15,7 +15,7 @@ public class TaskController {
     @Autowired
     private TaskRepository taskRepository;
 
-    // タスク一覧画面
+    // タスク一覧表示
     @GetMapping("/tasks")
     public String listTasks(Model model) {
         List<Task> tasks = taskRepository.findTop5ByOrderByIdAsc();
@@ -23,3 +23,6 @@ public class TaskController {
         return "task_list";
     }
 }
+
+
+

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>タスク情報編集</title>
+</head>
+<body>
+<h1>タスク情報編集</h1>
+
+<div th:if="${message}" th:text="${message}" style="color:blue"></div>
+
+<form th:object="${taskEditForm}" method="post">
+    <p>タスクNo.<br/>
+        <input type="text" th:field="*{taskNo}" />
+    </p>
+
+    <!-- 「読み込み」ボタン → POST /tasks/edit/load -->
+    <button type="submit" th:formaction="@{/tasks/edit/load}">読み込み</button>
+    <br/><br/>
+
+    <p>タスク名<br/>
+        <input type="text" th:field="*{taskName}" />
+    </p>
+    <p>タスク登録日<br/>
+        <input type="datetime-local" th:field="*{registrationDateStr}" />
+    </p>
+    <p>登録者<br/>
+        <input type="text" th:field="*{registrant}" />
+    </p>
+    <p>タスク詳細<br/>
+        <textarea th:field="*{detail}" rows="3" cols="40"></textarea>
+    </p>
+    <p>タスク状態<br/>
+        <input type="text" th:field="*{taskStatus}" />
+    </p>
+
+    <!-- 「登録」ボタン → POST /tasks/edit/save -->
+    <button type="submit" th:formaction="@{/tasks/edit/save}">登録</button>
+</form>
+
+<br/>
+<form th:action="@{/tasks}" method="get">
+    <button type="submit">タスク一覧に戻る</button>
+</form>
+</body>
+</html>
