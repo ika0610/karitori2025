@@ -1,0 +1,8 @@
+com/example/karitori2025/Karitori2025Application.class
+com/example/karitori2025/controller/EmployeeController.class
+com/example/karitori2025/repository/TaskRepository.class
+com/example/karitori2025/model/EmployeeInfo.class
+com/example/karitori2025/controller/TaskController.class
+com/example/karitori2025/repository/EmployeeInfoRepository.class
+com/example/karitori2025/controller/LoginController.class
+com/example/karitori2025/model/Task.class

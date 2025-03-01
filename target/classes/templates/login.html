@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>刈り取り君2025 - ログイン</title>
+</head>
+<body>
+    <h1>ログイン</h1>
+    <form th:action="@{/login}" method="post">
+        <label>ログインID:</label>
+        <input type="text" name="loginId" required />
+        <button type="submit">ログイン</button>
+    </form>
+    <div th:if="${error}">
+        <p style="color:red" th:text="${error}"></p>
+    </div>
+</body>
+</html>

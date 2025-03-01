@@ -1,0 +1,23 @@
+{
+  "name": "Spring Boot & MySQL",
+  "image": "mcr.microsoft.com/vscode/devcontainers/java:11",
+  "features": {
+    "maven": "latest"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "vscjava.vscode-spring-boot-dashboard"
+      ]
+    }
+  },
+  // Codespaces 起動時に 8080 ポートをパブリックにする
+  "forwardPorts": [8080],
+  "portsAttributes": {
+    "8080": {
+      "label": "Application (Public)",
+      "visibility": "public"
+    }
+  }
+}

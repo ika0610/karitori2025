@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>タスク社員一覧</title>
+</head>
+<body>
+    <h1>タスク社員一覧</h1>
+    <p>タスクNo: <span th:text="${taskNo}"></span></p>
+
+    <table border="1">
+        <tr>
+            <th>社員部署</th>
+            <th>社員PJ</th>
+            <th>社員番号</th>
+            <th>社員名</th>
+            <th>回答状況</th>
+            <th>回答備考</th>
+            <th>操作</th>
+        </tr>
+        <tr th:each="emp : ${employees}">
+            <!-- 各行ごとにフォームを作成し、明細を更新 -->
+            <form th:action="@{'/employees/' + ${emp.id} + '/update'}" method="post">
+                <input type="hidden" name="taskNo" th:value="${emp.taskNo}"/>
+                <td><input type="text" name="employeeDepartment" th:value="${emp.employeeDepartment}" /></td>
+                <td><input type="text" name="employeeProject" th:value="${emp.employeeProject}" /></td>
+                <td><input type="number" name="employeeNumber" th:value="${emp.employeeNumber}" /></td>
+                <td><input type="text" name="employeeName" th:value="${emp.employeeName}" /></td>
+                <td>
+                    <select name="answerStatus">
+                        <option value="未回答" th:selected="${emp.answerStatus == '未回答'}">未回答</option>
+                        <option value="回答済" th:selected="${emp.answerStatus == '回答済'}">回答済</option>
+                    </select>
+                </td>
+                <td><input type="text" name="answerRemark" th:value="${emp.answerRemark}" /></td>
+                <td>
+                    <button type="submit">回答状況更新</button>
+                </td>
+            </form>
+        </tr>
+    </table>
+
+    <br/>
+    <!-- タスク一覧に戻るボタン -->
+    <form action="/tasks" method="get">
+        <button type="submit">タスク一覧に戻る</button>
+    </form>
+</body>
+</html>

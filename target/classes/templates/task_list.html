@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>刈り取り君2025 - タスク一覧</title>
+</head>
+<body>
+    <h1>タスク一覧</h1>
+    <table border="1">
+        <tr>
+            <th>タスクNo</th>
+            <th>タスク名</th>
+            <th>タスク登録日</th>
+            <th>タスク登録者</th>
+            <th>タスク詳細</th>
+            <th>タスク状態</th>
+            <th>操作</th>
+        </tr>
+        <tr th:each="task : ${tasks}">
+            <td th:text="${task.taskNo}"></td>
+            <td th:text="${task.taskName}"></td>
+            <td th:text="${#temporals.format(task.registrationDate, 'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${task.registrant}"></td>
+            <td th:text="${task.detail}"></td>
+            <td th:text="${task.taskStatus}"></td>
+            <td>
+                <a th:href="@{'/tasks/' + ${task.taskNo} + '/employees'}">回答</a>
+            </td>
+        </tr>
+    </table>
+
+    <!-- ログイン画面に戻るボタン -->
+    <br/>
+    <form action="/" method="get">
+        <button type="submit">ログイン画面に戻る</button>
+    </form>
+</body>
+</html>
