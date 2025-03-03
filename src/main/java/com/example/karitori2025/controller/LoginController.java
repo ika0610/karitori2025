@@ -15,7 +15,7 @@ public class LoginController {
     @PostMapping("/login")
     public String processLogin(@RequestParam("loginId") String loginId, Model model) {
         if ("TDC".equals(loginId)) {
-            return "redirect:https://shiny-guacamole-9w4rq6ppgqwf7qrx-8080.app.github.dev/tasks";
+            return "redirect:/tasks";
         } else {
             model.addAttribute("error", "ログインIDが正しくありません。");
             return "login";
