@@ -15,7 +15,7 @@ public class LoginController {
     @PostMapping("/login")
     public String processLogin(@RequestParam("loginId") String loginId, Model model) {
         if ("TDC".equals(loginId)) {
-            return "redirect:/tasks";
+            return "redirect:http://ec2-13-55-91-191.ap-southeast-2.compute.amazonaws.com:8080/tasks";
         } else {
             model.addAttribute("error", "ログインIDが正しくありません。");
             return "login";
