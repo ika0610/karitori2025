@@ -1,17 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>タスク情報編集</title>
+  <meta charset="UTF-8">
+  <title>タスク情報編集</title>
+  <style>
+    body {
+      background-image: url("/images/background2.jpg"); /* 画像は static/images に配置 */
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+    }
+  </style>
 </head>
 <body>
-<h1>タスク情報編集</h1>
+  <h1>タスク情報編集</h1>
 
-<div th:if="${message}" th:text="${message}" style="color:blue"></div>
+  <div th:if="${message}" th:text="${message}" style="color:blue"></div>
 
-<form th:object="${taskEditForm}" method="post">
+  <form th:object="${taskEditForm}" method="post">
     <p>タスクNo.<br/>
-        <input type="text" th:field="*{taskNo}" />
+      <input type="text" th:field="*{taskNo}" />
     </p>
 
     <!-- 「読み込み」ボタン → POST /tasks/edit/load -->
@@ -19,28 +28,28 @@
     <br/><br/>
 
     <p>タスク名<br/>
-        <input type="text" th:field="*{taskName}" />
+      <input type="text" th:field="*{taskName}" />
     </p>
     <p>タスク登録日<br/>
-        <input type="datetime-local" th:field="*{registrationDateStr}" />
+      <input type="datetime-local" th:field="*{registrationDateStr}" />
     </p>
     <p>登録者<br/>
-        <input type="text" th:field="*{registrant}" />
+      <input type="text" th:field="*{registrant}" />
     </p>
     <p>タスク詳細<br/>
-        <textarea th:field="*{detail}" rows="3" cols="40"></textarea>
+      <textarea th:field="*{detail}" rows="3" cols="40"></textarea>
     </p>
     <p>タスク状態<br/>
-        <input type="text" th:field="*{taskStatus}" />
+      <input type="text" th:field="*{taskStatus}" />
     </p>
 
     <!-- 「登録」ボタン → POST /tasks/edit/save -->
-    <button type="submit" th:formaction="@{/tasks/edit/save}">登録</button>
-</form>
+    <button type="submit" th:formaction="@{/tasks/edit/save}">登録・更新</button>
+  </form>
 
-<br/>
-<form th:action="@{/tasks}" method="get">
+  <br/>
+  <form th:action="@{/tasks}" method="get">
     <button type="submit">タスク一覧に戻る</button>
-</form>
+  </form>
 </body>
 </html>

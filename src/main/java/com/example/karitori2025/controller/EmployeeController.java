@@ -53,12 +53,12 @@ public class EmployeeController {
                 emp.setAnswerStatus(answerStatus);
                 emp.setAnswerRemark(answerRemark);
                 employeeInfoRepository.save(emp);
-                model.addAttribute("updateMessage", "回答状況を更新しました");
+                model.addAttribute("updateMessage", "回答状況を更新しました。");
             } else {
-                model.addAttribute("updateMessage", "タスクNo が一致しないため更新されませんでした");
+                model.addAttribute("updateMessage", "タスクNo が一致しないため更新されませんでした。");
             }
         } else {
-            model.addAttribute("updateMessage", "該当社員情報が見つかりませんでした");
+            model.addAttribute("updateMessage", "該当社員情報が見つかりませんでした。");
         }
 
         // 更新後、再度このタスクNo に紐づく社員情報だけ取得

@@ -3,16 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <title>刈り取り君2025 - ログイン</title>
+    <style>
+        /* 背景画像設定 */
+        body {
+            background-image: url("/images/background.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            /* 中央寄せ用の Flexbox 設定 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        /* タイトルの設定 */
+        h1 {
+            color: white;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        /* フォーム全体の中央寄せとサイズ調整 */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+        }
+        /* ラベルの文字色 */
+        label {
+            color: white;
+        }
+        /* 入力フィールドのスタイル */
+        input[type="text"] {
+            font-size: 1.5rem;
+            padding: 10px;
+            width: 300px;
+            border: none;
+            border-radius: 5px;
+        }
+        /* ボタンのスタイル */
+        button {
+            font-size: 1.5rem;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        /* エラーメッセージの設定 */
+        p {
+            color: #ffcccc;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h1>ログイン</h1>
+    <h1>刈り取り君2025</h1>
     <form th:action="@{/login}" method="post">
         <label>ログインID:</label>
         <input type="text" name="loginId" required />
         <button type="submit">ログイン</button>
     </form>
     <div th:if="${error}">
-        <p style="color:red" th:text="${error}"></p>
+        <p th:text="${error}"></p>
     </div>
 </body>
 </html>

@@ -1,4 +1,4 @@
--- タスク初期データ
+-- タスク初期データ（既に同じタスク番号が存在する場合は挿入されない）
 INSERT IGNORE INTO tasks (task_no, task_name, registration_date, registrant, detail, task_status)
 VALUES
 ('T001', 'タスク1', NOW(), '登録者1', 'タスク1の詳細', '未完了'),
@@ -8,8 +8,6 @@ VALUES
 ('T005', 'タスク5', NOW(), '登録者5', 'タスク5の詳細', '未完了');
 
 -- 社員情報初期データ
--- 各タスクに対して、同じ4名の社員情報を登録する例
-
 -- タスク T001 の社員情報
 INSERT IGNORE INTO employee_info (task_no, employee_department, employee_project, employee_number, employee_name, answer_status, answer_remark)
 VALUES

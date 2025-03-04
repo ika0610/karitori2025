@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
+import java.util.List;
 
 @Controller
 public class TaskEditController {
@@ -22,7 +22,7 @@ public class TaskEditController {
     @GetMapping("/tasks/edit")
     public String showTaskEditForm(Model model) {
         model.addAttribute("taskEditForm", new TaskEditForm());
-        return "task_edit"; // task_edit.html を返す
+        return "task_edit";
     }
 
     // POST /tasks/edit/load : タスクNo で既存タスクを読み込み
@@ -34,9 +34,11 @@ public class TaskEditController {
             return "task_edit";
         }
 
-        Optional<Task> optTask = taskEditRepository.findByTaskNo(form.getTaskNo());
-        if (optTask.isPresent()) {
-            Task t = optTask.get();
+        // タスク番号に一致するタスクを全件取得
+        List<Task> tasks = taskEditRepository.findByTaskNo(form.getTaskNo());
+        if (!tasks.isEmpty()) {
+            // 複数件見つかった場合は最初の1件を利用する
+            Task t = tasks.get(0);
             form.setTaskName(t.getTaskName());
             form.setRegistrant(t.getRegistrant());
             form.setDetail(t.getDetail());
@@ -46,15 +48,19 @@ public class TaskEditController {
                     t.getRegistrationDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"))
                 );
             }
-            model.addAttribute("message", "既存タスクを読み込みました。");
+            if (tasks.size() > 1) {
+                model.addAttribute("message", "");
+            } else {
+                model.addAttribute("message", "");
+            }
         } else {
             model.addAttribute("message", "該当タスクがありません。新規作成します。");
         }
         return "task_edit";
     }
 
-    // POST /tasks/edit/save : タスク情報を DB に保存（新規 or 更新）し、
-    // タスク一覧へ遷移せずに「タスク情報を更新・追加しました」のメッセージを表示する
+    // POST /tasks/edit/save : タスク情報をDBに保存（新規 or 更新）し、
+    // タスク一覧へリダイレクトせずに「タスク情報を更新・追加しました」のメッセージを表示する
     @PostMapping("/tasks/edit/save")
     public String saveTask(@ModelAttribute("taskEditForm") TaskEditForm form,
                            Model model) {
@@ -63,13 +69,12 @@ public class TaskEditController {
             return "task_edit";
         }
 
-        Optional<Task> optTask = taskEditRepository.findByTaskNo(form.getTaskNo());
+        // 同じタスク番号のタスクを全件取得し、存在する場合は最初の1件を更新
+        List<Task> tasks = taskEditRepository.findByTaskNo(form.getTaskNo());
         Task task;
-        if (optTask.isPresent()) {
-            // 既存タスクの場合は更新
-            task = optTask.get();
+        if (!tasks.isEmpty()) {
+            task = tasks.get(0);
         } else {
-            // 新規作成の場合
             task = new Task();
         }
 
@@ -92,13 +97,11 @@ public class TaskEditController {
             }
         }
 
-        // タスクを DB に保存
         taskEditRepository.save(task);
 
-        // 保存後、同じ task_edit.html を再表示し、メッセージを出力
-        model.addAttribute("message", "タスク情報を更新・追加しました");
+        model.addAttribute("message", "タスク情報を更新・追加しました。");
 
-        // 必要に応じて、フォームに最新の内容を反映させる
+        // 最新の内容をフォームに反映
         form.setTaskName(task.getTaskName());
         form.setRegistrant(task.getRegistrant());
         form.setDetail(task.getDetail());

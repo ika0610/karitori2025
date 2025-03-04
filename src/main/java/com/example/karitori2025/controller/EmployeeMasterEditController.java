@@ -40,7 +40,7 @@ public class EmployeeMasterEditController {
 
         List<EmployeeInfo> employees = employeeMasterEditRepository.findByEmployeeNumber(form.getEmployeeNumber());
         if (employees.isEmpty()) {
-            model.addAttribute("message", "該当社員がありません。新規作成します。");
+            model.addAttribute("message", "該当社員が存在しません。新規作成します。");
         } else {
             // 1件以上ある場合は、フォームに最初のレコードを反映（参考表示）
             EmployeeInfo first = employees.get(0);
@@ -48,9 +48,9 @@ public class EmployeeMasterEditController {
             form.setEmployeeProject(first.getEmployeeProject());
             form.setEmployeeName(first.getEmployeeName());
             if (employees.size() > 1) {
-                model.addAttribute("message", "同じ社員番号が複数存在します。いずれも更新されます。");
+                model.addAttribute("message", "");
             } else {
-                model.addAttribute("message", "既存社員情報を読み込みました。");
+                model.addAttribute("message", "社員情報を読み込みました。");
             }
         }
         return "employee_master_edit";
@@ -92,7 +92,7 @@ public class EmployeeMasterEditController {
                 employeeMasterEditRepository.save(newEmp);
             }
         }
-        model.addAttribute("message", "新規社員情報を全タスク分登録または更新しました。");
+        model.addAttribute("message", "社員情報を更新しました。");
         return "employee_master_edit";
     }
 }

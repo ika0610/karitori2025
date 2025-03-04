@@ -3,16 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>刈り取り君2025 - タスク一覧</title>
+    <style>
+        body {
+            background-image: url("/images/background2.jpg"); /* static/images/background.jpg に配置 */
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: black;  /* 文字色を黒に設定 */
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
     <h1>タスク一覧</h1>
 
-    <!-- タスク情報編集ボタン (既存) -->
+    <!-- タスク情報編集ボタン -->
     <form th:action="@{/tasks/edit}" method="get" style="margin-bottom:10px; display:inline-block;">
         <button type="submit">タスク情報編集</button>
     </form>
 
-    <!-- 社員マスタ編集ボタン (新規) -->
+    <!-- 社員マスタ編集ボタン -->
     <form th:action="@{/employees/master/edit}" method="get" style="margin-bottom:10px; display:inline-block; margin-left:10px;">
         <button type="submit">社員マスタ編集</button>
     </form>
@@ -25,7 +37,7 @@
             <th>タスク登録者</th>
             <th>タスク詳細</th>
             <th>タスク状態</th>
-            <th>操作</th>
+            <th>回答する</th>
         </tr>
         <tr th:each="task : ${tasks}">
             <td th:text="${task.taskNo}"></td>
@@ -34,9 +46,11 @@
             <td th:text="${task.registrant}"></td>
             <td th:text="${task.detail}"></td>
             <td th:text="${task.taskStatus}"></td>
-            <td>
-                <!-- 回答ボタンのみ -->
-                <a th:href="@{'/tasks/' + ${task.taskNo} + '/employees'}">回答</a>
+            <td style="text-align: center;">
+                <!-- 回答ボタンを中央に配置 -->
+                <form th:action="@{'/tasks/' + ${task.taskNo} + '/employees'}" method="get">
+                    <button type="submit">回答</button>
+                </form>
             </td>
         </tr>
     </table>
@@ -47,4 +61,3 @@
     </form>
 </body>
 </html>
-
