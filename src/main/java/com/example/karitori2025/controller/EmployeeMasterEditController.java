@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class EmployeeMasterEditController {
@@ -20,7 +19,7 @@ public class EmployeeMasterEditController {
     private EmployeeMasterEditRepository employeeMasterEditRepository;
 
     @Autowired
-    private TaskRepository taskRepository;  // 全タスクを取得するために追加
+    private TaskRepository taskRepository;  // 全タスクを取得するため
 
     // GET /employees/master/edit : 初期表示（空フォーム）
     @GetMapping("/employees/master/edit")
@@ -42,7 +41,7 @@ public class EmployeeMasterEditController {
         if (employees.isEmpty()) {
             model.addAttribute("message", "該当社員が存在しません。新規作成します。");
         } else {
-            // 1件以上ある場合は、フォームに最初のレコードを反映（参考表示）
+            // 複数レコードが存在しても、まずは最初のレコードの情報をフォームに反映（参考表示）
             EmployeeInfo first = employees.get(0);
             form.setEmployeeDepartment(first.getEmployeeDepartment());
             form.setEmployeeProject(first.getEmployeeProject());
@@ -57,8 +56,8 @@ public class EmployeeMasterEditController {
     }
 
     // POST /employees/master/edit/save : DB保存（新規 or 更新）
-    // 新規の場合は、tasks テーブルに存在する全タスク分のレコードを作成し、
-    // 同じ社員番号が既に存在する場合は、そのレコードを更新する
+    // 新規の場合は、tasksテーブルに存在する全タスク分のレコードを作成し、
+    // 既に存在する場合はそのレコードを更新します。
     @PostMapping("/employees/master/edit/save")
     public String saveEmployee(@ModelAttribute("employeeMasterEditForm") EmployeeMasterEditForm form,
                                Model model) {
@@ -70,24 +69,24 @@ public class EmployeeMasterEditController {
         // 全タスクを取得
         List<Task> allTasks = taskRepository.findAll();
 
-        // 全タスクに対して、指定の社員番号でレコードが存在するかチェックし、なければ新規作成、あれば更新
         for (Task t : allTasks) {
-            Optional<EmployeeInfo> optEmp = employeeMasterEditRepository.findByTaskNoAndEmployeeNumber(t.getTaskNo(), form.getEmployeeNumber());
-            if (optEmp.isPresent()) {
-                // 更新: 存在するレコード全てを上書き
-                EmployeeInfo emp = optEmp.get();
-                emp.setEmployeeDepartment(form.getEmployeeDepartment());
-                emp.setEmployeeProject(form.getEmployeeProject());
-                emp.setEmployeeName(form.getEmployeeName());
-                employeeMasterEditRepository.save(emp);
+            // task_no と社員番号でレコードを取得
+            List<EmployeeInfo> empList = employeeMasterEditRepository.findAllByTaskNoAndEmployeeNumber(t.getTaskNo(), form.getEmployeeNumber());
+            if (!empList.isEmpty()) {
+                // 存在する場合は、すべて更新
+                for (EmployeeInfo emp : empList) {
+                    emp.setEmployeeDepartment(form.getEmployeeDepartment());
+                    emp.setEmployeeProject(form.getEmployeeProject());
+                    emp.setEmployeeName(form.getEmployeeName());
+                    employeeMasterEditRepository.save(emp);
+                }
             } else {
-                // 新規作成
+                // 存在しなければ、新規作成
                 EmployeeInfo newEmp = new EmployeeInfo();
                 newEmp.setEmployeeNumber(form.getEmployeeNumber());
                 newEmp.setEmployeeDepartment(form.getEmployeeDepartment());
                 newEmp.setEmployeeProject(form.getEmployeeProject());
                 newEmp.setEmployeeName(form.getEmployeeName());
-                // 各タスクの taskNo をセット
                 newEmp.setTaskNo(t.getTaskNo());
                 employeeMasterEditRepository.save(newEmp);
             }
